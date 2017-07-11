@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Add a new employee</title>
+  </head>
+  <body>
+    <h3>Add a new employee here</h3>
+      <%= form_for @employee, url: '/employees' do |f| %>
+        <p>Name: <%= f.text_field :name %></p>
+        <p>Email: <%= f.text_field :email %></p>
+        <p>Store <%= f.select :store_id, @stores %></p>
+        <p>Manager/Employee? <%= f.select :is_manager, [['Manager', true], ['Employee', false]] %></p>
+        <p>Password: <%= f.password_field :password %></p>
+        <p>Password Confirmation: <%= f.password_field :password_confirmation %></p>
+        <p><%= f.submit "Add new employee" %></p>
+      <% end %>
+  </body>
+</html>
