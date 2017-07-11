@@ -1,19 +1,9 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>View a shift</title>
-  </head>
-  <body>
-    <h3><%= Date.parse(@shift.day).strftime("%A, %B %e") %></h3><br>
-      <p>Start time: <%= @shift.start_time %><br>
-        End time: <%= @shift.end_time %></p><br>
-      <p>Manager name: <%= @shift.manager.name %><br>
-        Employee names: <% @shift.employees.each do |emp| %></p>
-        <p><%= emp.name %></p>
-        <% end %>
+<h3><%= Date.parse(@shift.day).strftime("%A, %B %e") %></h3><br>
+  <p>Start time: <%= @shift.start_time %><br>
+    End time: <%= @shift.end_time %></p><br>
+  <p>Manager name: <%= @shift.manager.name %><br>
+    Employee names: <% @shift.employees.each do |emp| %></p>
+    <p><%= emp.name %></p>
+    <% end %>
 
-        <%= link_to "Back", :back, {:class=>"btn btn-default"} %>
-  </body>
-
-</html>
+    <%= link_to "Back", :back, {:class=>"btn btn-default"} %>
