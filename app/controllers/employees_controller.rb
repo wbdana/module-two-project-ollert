@@ -1,6 +1,6 @@
 class EmployeesController < ApplicationController
 
-  before_action :authorize
+  before_action :authorize, except: [:create]
 
   def new
     @employee = Employee.new
@@ -12,7 +12,7 @@ class EmployeesController < ApplicationController
     if @employee.save
       session[:employee_id] = @employee.id
       if @employee.is_manager
-        redirect_to @employee
+        redirect_to store_path(@employee.store_id)
       else
         redirect_to @employee
       end
@@ -27,7 +27,7 @@ class EmployeesController < ApplicationController
 
   private
     def employee_params
-      params.require(:employee).permit(:name, :password_digest, :store_id, :is_manager)
+      params.require(:employee).permit(:name, :password, :password_confirmation, :store_id, :is_manager, :email)
     end
 
 end

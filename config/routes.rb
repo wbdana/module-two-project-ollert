@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   get '/', to: 'sessions#new', as: 'login'
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
-  get '/logout', to: 'sessions#destroy'
+  get '/logout', to: 'sessions#destroy', as: 'logout'
   get '/signup', to: 'employees#new'
   post '/employees', to: 'employees#create'
   resources :shifts
