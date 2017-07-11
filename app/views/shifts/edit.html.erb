@@ -1,0 +1,16 @@
+
+<%= form_for @shift, method: :patch do |f| %>
+  <%= f.label :day %>
+  <%= f.select :day, [['Monday', 'monday'], ['Tuesday', 'tuesday'], ['Wednesday', 'wednesday'], ['Thursday', 'thursday'], ['Friday', 'friday']] %><br><br>
+  <%= f.label :start_time %>
+  <%= f.select :start_time, [['9:00', 900], ['1:00', 1300], ['5:00', 1700]] %><br><br>
+  <%= f.label :end_time %>
+  <%= f.select :end_time, [['1:00', 1300], ['5:00', 1700], ['9:00', 2100]] %><br><br>
+  <%= f.label "Manager" %>
+  <%= f.select :manager_id, @managers %><br><br>
+  <%= f.label "Employees" %>
+  <% @employees.each do |employee| %>
+    <%= check_box_tag 'employee_ids[]', employee.id, checked = false, {:id => employee.id} %> <%= employee.name %>
+  <% end %>
+  <%= f.submit %>
+<% end %>
