@@ -8,8 +8,8 @@ class ShiftsController < ApplicationController
 
   def new
     @shift = Shift.new
-    @managers = Manager.all.map{|manager| ["#{manager.name}", "#{manager.id}"]}
-    @employees = Employee.all
+    @managers = Employee.where(is_manager: true).map{|manager| ["#{manager.name}", "#{manager.id}"]}
+    @employees = Employee.where(is_manager: false)
   end
 
   def create

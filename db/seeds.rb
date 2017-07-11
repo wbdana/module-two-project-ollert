@@ -18,11 +18,11 @@ Store.create(name: "Flagship Chicago", city_id: City.find_by(name: "Chicago").id
 Store.create(name: "Flagship New Orleans", city_id: City.find_by(name: "New Orleans").id)
 Store.create(name: "Flagship Washington DC", city_id: City.find_by(name: "Washington DC").id)
 
-Manager.create(name: "Johann", store_id: Store.find_by(name: "Flagship New York").id)
-Manager.create(name: "Es", store_id: Store.find_by(name: "Flagship San Francisco").id)
-Manager.create(name: "Jeff", store_id: Store.find_by(name: "Flagship Chicago").id)
-Manager.create(name: "Paul Blart", store_id: Store.find_by(name: "Flagship Washington DC").id)
-Manager.create(name: "Will Smith", store_id: Store.find_by(name: "Flagship New Orleans").id)
+Employee.create(name: "Johann", store_id: Store.find_by(name: "Flagship New York").id, is_manager: true)
+Employee.create(name: "Es", store_id: Store.find_by(name: "Flagship San Francisco").id, is_manager: true)
+Employee.create(name: "Jeff", store_id: Store.find_by(name: "Flagship Chicago").id, is_manager: true)
+Employee.create(name: "Paul Blart", store_id: Store.find_by(name: "Flagship Washington DC").id, is_manager: true)
+Employee.create(name: "Will Smith", store_id: Store.find_by(name: "Flagship New Orleans").id, is_manager: true)
 
 Employee.create(name: "Paul", store_id: Store.find_by(name: "Flagship New York").id)
 Employee.create(name: "DJ", store_id: Store.find_by(name: "Flagship New York").id)

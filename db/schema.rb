@@ -28,13 +28,7 @@ ActiveRecord::Schema.define(version: 20170707191157) do
   create_table "employees", force: :cascade do |t|
     t.string "name"
     t.integer "store_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "managers", force: :cascade do |t|
-    t.string "name"
-    t.integer "store_id"
+    t.boolean "is_manager", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

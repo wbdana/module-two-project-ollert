@@ -5,7 +5,6 @@ class CreateShifts < ActiveRecord::Migration[5.1]
       t.integer :manager_id
       t.integer :start_time
       t.integer :end_time
-
       t.timestamps
     end
   end
