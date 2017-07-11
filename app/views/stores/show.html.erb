@@ -1,0 +1,13 @@
+<h1><%= @store.name %></h1>
+<h2>City: <%= City.find(@store.id).name %></h2>
+<h3>Managers: </h3>
+<% Employee.where(is_manager: true, store_id: @store.id).each do |manager| %>
+<p><%=  link_to "#{manager.name}", employee_path(manager)%></p>
+<% end %>
+
+<h3>Employees: </h3>
+<% Employee.where(is_manager: false, store_id: @store.id).each do |employee| %>
+<p><%=  link_to "#{employee.name}", employee_path(employee)%></p>
+<% end %>
+
+<%= link_to "Back", :back, {:class=>"btn btn-default"} %>

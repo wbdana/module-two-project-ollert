@@ -1,0 +1,7 @@
+<h1>Employee:</h1>
+<h2><%= @employee.name %></h2>
+<%= @employee.shifts.each do |shift| %>
+<h2>Shift: <%= shift.day %></h2>
+<p>Start Time: <%= shift.start_time %></p>
+<p>End Time: <%= shift.end_time %></p>
+<% end %>
