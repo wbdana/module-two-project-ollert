@@ -2,7 +2,10 @@ class ShiftsController < ApplicationController
 
   before_action :find_shift, only: [:show, :edit, :destroy, :update]
 
+  before_action :authorize
+
   def index
+
     @shifts = Shift.all
     @store_id = params[:store_id] if params.keys.include?("store_id")
     @store = Store.find(@store_id) if @store_id

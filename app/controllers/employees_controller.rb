@@ -1,5 +1,7 @@
 class EmployeesController < ApplicationController
 
+  before_action :authorize
+
   def new
     @employee = Employee.new
     @stores = Store.all.map{|store| ["#{store.name}", "#{store.id}"]}
