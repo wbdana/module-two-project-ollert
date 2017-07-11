@@ -1,9 +1,17 @@
-<h3><%= Date.parse(@shift.day).strftime("%A, %B %e") %></h3><br>
+<h3><%= @shift.day.strftime("%A, %B %e, %Y") %></h3><br>
   <p>Start time: <%= @shift.start_time %><br>
     End time: <%= @shift.end_time %></p><br>
   <p>Manager name: <%= @shift.manager.name %><br>
     Employee names: <% @shift.employees.each do |emp| %></p>
     <p><%= emp.name %></p>
     <% end %>
+
+    <h3>Shift Tasks</h3>
+
+    <ol><% @shift.tasks.each do |task| %>
+      <li><%= task.description %></li>
+      <% end %>
+    </ol>
+
 
     <%= link_to "Back", :back, {:class=>"btn btn-default"} %>

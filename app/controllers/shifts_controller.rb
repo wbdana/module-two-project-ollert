@@ -5,7 +5,6 @@ class ShiftsController < ApplicationController
   before_action :authorize
 
   def index
-
     @shifts = Shift.all
     @store_id = params[:store_id] if params.keys.include?("store_id")
     @store = Store.find(@store_id) if @store_id
@@ -14,25 +13,36 @@ class ShiftsController < ApplicationController
   def new
     @shift = Shift.new
     @store = Store.find(params[:store_id])
+    5.times do |i|
+      @shift.tasks << Task.new
+    end
     @managers = Employee.where(is_manager: true, store:  @store).map{|manager| ["#{manager.name}", "#{manager.id}"]}
     @employees = Employee.where(is_manager: false, store: @store)
   end
 
   def create
+    byebug
     @shift = Shift.create(shift_params)
-    params[:employee_ids].each do |id|
+    params[:shift][:employee_ids].shift
+    params[:shift][:employee_ids].each do |id|
       @shift.employees << Employee.find(id.to_i)
+    end
+    params[:shift][:tasks_attributes].values.each do |desc_hash|
+      @shift.tasks << Task.create(description: desc_hash[:description])
     end
     redirect_to @shift
   end
 
   def show
     @shift = Shift.find(params[:id])
-
   end
 
   def edit
     @shift = Shift.find(params[:id])
+    byebug
+    @store = Store.find(@shift.manager.store.id)
+    @managers = Employee.where(is_manager: true, store:  @store).map{|manager| ["#{manager.name}", "#{manager.id}"]}
+    @employees = Employee.where(is_manager: false, store: @store)
   end
 
   def update

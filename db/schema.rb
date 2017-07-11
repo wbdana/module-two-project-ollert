@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20170711153227) do
   end
 
   create_table "shifts", force: :cascade do |t|
-    t.string "day"
+    t.datetime "day"
     t.integer "manager_id"
     t.integer "start_time"
     t.integer "end_time"
