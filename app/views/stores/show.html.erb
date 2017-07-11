@@ -9,5 +9,7 @@
 <% Employee.where(is_manager: false, store_id: @store.id).each do |employee| %>
 <p><%=  link_to "#{employee.name}", employee_path(employee)%></p>
 <% end %>
-
+<%= link_to "View all shifts for this location.", "/shifts?store_id=#{@store.id}" %>
+<br>
+<br>
 <%= link_to "Back", :back, {:class=>"btn btn-default"} %>

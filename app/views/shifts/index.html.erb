@@ -5,18 +5,4 @@
       <p><%=link_to "#{shift.day}, #{shift.start_time} - #{shift.end_time}", shift_path(shift) %></p>
     <% end %>
   <% end %>
-<% elsif @manager %>
-  <h1><%= @manager.name %>, here are your shifts:</h1>
-  <% @shifts.each do |shift| %>
-    <% if shift.manager == @manager %>
-      <p><%=link_to "#{shift.day}, #{shift.start_time} - #{shift.end_time}", shift_path(shift) %></p>
-    <% end %>
-  <% end %>
-  <% elsif @employee %>
-    <h1><%= @employee.name %>, here are your shifts:</h1>
-    <% @shifts.each do |shift| %>
-      <% if shift.employees.include?(@employee) %>
-        <p><%=link_to "#{shift.day}, #{shift.start_time} - #{shift.end_time}", shift_path(shift) %></p>
-      <% end %>
-    <% end %>
 <% end %>
