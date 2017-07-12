@@ -13,7 +13,15 @@
         <link href="https://fonts.googleapis.com/css?family=Lato:300,400|Raleway" rel="stylesheet">
 
   </head>
-
+  <nav>
+    <div class="nav-wrapper">
+      <div class="container">
+        <% if current_user %>
+          Hi, <%= current_user.name%>!
+        <% end %>
+      </div>
+    </div>
+  </nav>
   <body>
     <div class="container">
       <%= yield %>
@@ -32,10 +40,17 @@
         $('.modal').modal();
         $('select').material_select('destroy');
       });
+
+      $(document).ready(function() {
+      $('select').material_select();
+    });
     </script>
 
   </body>
-  <footer>
-  <% if logged_in %><%= link_to "Logout", logout_path %><% end %>
+  <footer class="footer-copyright container m6 s4">
+    <br>
+    <% if logged_in %>
+      <%= link_to "LOGOUT", :logout, {:class=>"btn btn-default"} %>
+    <% end %>
   </footer>
 </html>

@@ -21,8 +21,7 @@ class ShiftsController < ApplicationController
   end
 
   def create
-    byebug
-    @shift = Shift.create(shift_params)
+    @shift = Shift.new(shift_params)
     params[:shift][:employee_ids].shift
     params[:shift][:employee_ids].each do |id|
       @shift.employees << Employee.find(id.to_i)
@@ -30,7 +29,13 @@ class ShiftsController < ApplicationController
     params[:shift][:tasks_attributes].values.each do |desc_hash|
       @shift.tasks << Task.create(description: desc_hash[:description])
     end
-    redirect_to @shift
+    @shift.save
+    if @shift.errors.full_messages == []
+      redirect_to shift_path(@shift)
+    else
+      redirect_to new_store_shift_path(@shift.manager.store) + "?errors=#{@shift.errors.full_messages.first}"
+    end
+
   end
 
   def show
@@ -39,7 +44,6 @@ class ShiftsController < ApplicationController
 
   def edit
     @shift = Shift.find(params[:id])
-    byebug
     @store = Store.find(@shift.manager.store.id)
     @managers = Employee.where(is_manager: true, store:  @store).map{|manager| ["#{manager.name}", "#{manager.id}"]}
     @employees = Employee.where(is_manager: false, store: @store)
