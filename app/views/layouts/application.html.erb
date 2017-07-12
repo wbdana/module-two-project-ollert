@@ -2,14 +2,38 @@
 <html>
   <head>
     <title>Ollert</title>
-    <%= csrf_meta_tags %>
+    <!-- MATERIAL ICONS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+        <!-- APPLE -->
+        <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- MATERIAL STYLES -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
+        <!-- GOOGLE FONTS -->
+        <link href="https://fonts.googleapis.com/css?family=Lato:300,400|Raleway" rel="stylesheet">
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-    <%= yield %>
+    <div class="container">
+      <%= yield %>
+    </div>
+
+    <!-- JQUERY -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- MATERIALIZE -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
+
+    <!-- SCRIPT -->
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.parallax').parallax();
+        $(".button-collapse").sideNav();
+        $('.modal').modal();
+        $('select').material_select('destroy');
+      });
+    </script>
+
   </body>
   <footer>
   <% if logged_in %><%= link_to "Logout", logout_path %><% end %>
