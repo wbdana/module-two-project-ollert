@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get '/logout', to: 'sessions#destroy', as: 'logout'
   get '/signup', to: 'employees#new'
   post '/employees', to: 'employees#create'
+  post '/shifts/destroy', to: 'shifts#destroy', as: 'destroy'
   resources :shifts
   resources :employees
   resources :managers

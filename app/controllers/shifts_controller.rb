@@ -26,10 +26,12 @@ class ShiftsController < ApplicationController
     params[:shift][:employee_ids].each do |id|
       @shift.employees << Employee.find(id.to_i)
     end
+    @shift.employees << Employee.find(@shift.manager_id)
     params[:shift][:tasks_attributes].values.each do |desc_hash|
       @shift.tasks << Task.create(description: desc_hash[:description])
     end
     @shift.save
+
     if @shift.errors.full_messages == []
       redirect_to shift_path(@shift)
     else
@@ -51,11 +53,20 @@ class ShiftsController < ApplicationController
 
   def update
     @shift.update(shift_params)
+    @shift.tasks = []
+    params[:shift][:tasks_attributes].values.each do |desc_hash|
+      @shift.tasks << Task.create(description: desc_hash[:description])
+    end
     @shift.save
     redirect_to @shift
   end
 
+  #TODO fix this method
+  
   def destroy
+    @shift = Shift.find(params[:id])
+    @shift.destroy
+    redirect_to '/'
   end
 
   def show_params

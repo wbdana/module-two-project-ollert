@@ -31,4 +31,10 @@ class Employee < ApplicationRecord
     end
   end
 
+  #methods
+
+  def total_hours_worked
+    self.shifts.map{|shift| shift.hours}.inject(:+)
+  end
+
 end

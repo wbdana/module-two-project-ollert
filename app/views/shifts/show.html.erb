@@ -1,4 +1,4 @@
-<h3><%= @shift.day.strftime("%A, %B %e, %Y") %></h3><br>
+<h3><%= @shift.day.to_date.strftime("%A, %B %e, %Y") %></h3><br>
   <p>Start time: <%= @shift.start_time %><br>
     End time: <%= @shift.end_time %></p><br>
   <p>Manager name: <%= @shift.manager.name %><br>
@@ -13,5 +13,8 @@
       <% end %>
     </ol>
 
+    <%= link_to "Edit", "/stores/#{@shift.manager.store.id}/shifts/#{@shift.id}/edit", {:class=>"btn btn-default"} %>
+
+    <%= link_to "Delete", "/stores/#{@shift.manager.store.id}/shifts/#{@shift.id}", {:class=>"btn btn-default", method: :puts} %>
 
     <%= link_to "Back", :back, {:class=>"btn btn-default"} %>
