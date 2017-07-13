@@ -17,7 +17,6 @@ class Shift < ApplicationRecord
   end
 
   def check_date
-    byebug
     if self.day.to_date < Date.today
       self.errors.add(:day, "-- No time traveling during business hours")
     end

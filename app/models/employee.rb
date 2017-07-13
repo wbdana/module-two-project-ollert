@@ -37,4 +37,28 @@ class Employee < ApplicationRecord
     self.shifts.map{|shift| shift.hours}.inject(:+)
   end
 
+  def employee_tasks
+    self.shifts.map {|shift| shift.tasks}.flatten.reject{|task| task.description.length < 2 }
+  end
+
+  def num_of_tasks
+    employee_tasks.count
+  end
+
+  def past_shifts
+    self.shifts.select{|shift| shift.day < Time.now}
+  end
+
+  def future_shifts
+    self.shifts.select{|shift| shift.day > Time.now}
+  end
+
+  def total_days_worked
+    past_shifts.map{|shift| shift.day}.uniq.count
+  end
+
+  def total_days_to_work
+    future_shifts.map{|shift| shift.day}.uniq.count
+  end
+
 end
