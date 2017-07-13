@@ -31,5 +31,4 @@ class Store < ApplicationRecord
     past_shifts.map {|shift| shift.tasks}.flatten.reject{|task| task.description.length < 2 }
   end
 
-
 end

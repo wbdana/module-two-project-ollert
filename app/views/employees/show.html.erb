@@ -3,12 +3,47 @@
 <div class="row">
   <div class="card">
     <div class="card-content blue-grey lighten-5 col s12">
-      <h5>Shifts:</h5>
+      <div class="row">
+        <div class="col s6">
+          <p>Total Hours Worked: <%= @employee.total_hours_worked %></p>
+          <p>Future Scheduled Hours: <%= @employee.future_scheduled_hours %></p>
+          <p>Number of Tasks: <%= @employee.num_of_tasks %></p>
+          <p>Total Days Worked: <%= @employee.total_days_worked %></p>
+          <p>Future Scheduled Days: <%= @employee.total_days_to_work %></p><br><br>
 
-      <% @employee.shifts.each do |shift| %>
-        <li><%=link_to "#{shift.day.strftime('%A, %B %e, %Y')} | #{shift.formatted_start_time}", shift_path(shift) %></li>
-        <br>
-      <% end %>
+          <h5>Shifts:</h5>
+          <% if @employee.shifts.empty? %>
+            <p>No Shifts! Better get to it.</p>
+          <% else %>
+            <% @employee.shifts.each do |shift| %>
+              <li><%=link_to "#{shift.day.strftime('%A, %B %e, %Y')} | #{shift.formatted_start_time}", shift_path(shift) %></li>
+              <br>
+            <% end %>
+          <% end %>
+
+
+        </div>
+        <div class="col s6">
+          <div class="card">
+            <div class="card-content">
+              <h5>Upcoming Tasks :</h5>
+
+                <% if @employee.future_tasks.empty? %>
+                  <p>Looks like you got nothing to do.</p>
+                <% else %>
+                <ol>
+                  <% @employee.future_tasks.each do |task| %>
+                  <li><%= task.description %></li>
+                  <% end %>
+                <% end %>
+              </ol>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
     </div>
   </div>
 </div>

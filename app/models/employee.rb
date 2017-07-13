@@ -34,7 +34,7 @@ class Employee < ApplicationRecord
   #methods
 
   def total_hours_worked
-    self.shifts.map{|shift| shift.hours}.inject(:+)
+    past_shifts.map{|shift| shift.hours}.inject(:+) || 0
   end
 
   def employee_tasks
@@ -53,12 +53,20 @@ class Employee < ApplicationRecord
     self.shifts.select{|shift| shift.day > Time.now}
   end
 
+  def future_tasks
+    employee_tasks.select{|task| task.shift.day > Time.now}
+  end
+
   def total_days_worked
     past_shifts.map{|shift| shift.day}.uniq.count
   end
 
   def total_days_to_work
     future_shifts.map{|shift| shift.day}.uniq.count
+  end
+
+  def future_scheduled_hours
+    future_shifts.map{|shift| shift.hours}.inject(:+) || 0
   end
 
 end

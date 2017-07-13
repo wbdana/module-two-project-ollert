@@ -1,17 +1,45 @@
 <h2 class="center-align"><%= @store.name %></h2>
 <div class="row card blue-grey lighten-5 col s12">
   <div class="card-content">
-    <h5>City: <%= City.find(@store.id).name %></h5>
+    <div class="row">
+      <div class="col s6">
+        <h5>City: <%= City.find(@store.id).name %></h5>
+        <p>Total Employees: <%= @store.num_of_employees %></p>
+        <p>Number of Managers: <%= @store.num_of_managers %></p>
+      </div>
+
     <div class="col s6">
+      <div class="card">
+        <div class="card-content">
+          <p><strong>Upcoming Tasks:</strong></p>
+          <% if @store.future_tasks.empty? %>
+            <p>Tasks is empty... Do you even work bro?</p>
+          <% else %>
+            <ol>
+              <% @store.future_tasks.each do |task| %>
+                <li><%= task.description %></li>
+              <% end %>
+            <% end %>
+          </ol>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div class="card-action col s6">
       <h5>Managers: </h5>
       <% Employee.where(is_manager: true, store_id: @store.id).each do |manager| %>
       <li><%=  link_to "#{manager.name}", employee_path(manager)%></li>
       <% end %>
     </div>
-    <div class="col s6">
+    <div class="card-action col s6">
       <h5>Employees: </h5>
-      <% Employee.where(is_manager: false, store_id: @store.id).each do |employee| %>
-      <li><%=  link_to "#{employee.name}", employee_path(employee)%></li>
+      <% if @store.num_of_employees < 2 %>
+        <p>We are going to look into why you work alone.</p>
+      <% else %>
+        <% Employee.where(is_manager: false, store_id: @store.id).each do |employee| %>
+          <li><%=  link_to "#{employee.name}", employee_path(employee)%></li>
+        <% end %>
       <% end %>
       <br>
       <br>

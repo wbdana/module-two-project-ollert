@@ -21,21 +21,19 @@
   </div>
   <div class="col s12">
     <h5>Shift Tasks</h5>
+      <ol><% @shift.tasks.each do |task| %>
+        <li><%= task.description %></li>
+        <% end %>
+      </ol>
+      <%= link_to "Edit", "/stores/#{@shift.manager.store.id}/shifts/#{@shift.id}/edit", {:class=>"btn btn-default  blue darken-3"} %>
+      <br><br>
 
-    <ol><% @shift.tasks.each do |task| %>
-      <li><%= task.description %></li>
+      <%= form_for(@shift, :method => :delete) do |f| %>
+          <%= f.submit :value => "Delete", :class=>"btn btn-default blue darken-3"%>
       <% end %>
-    </ol>
     </div>
 
-    <%= link_to "Edit", "/stores/#{@shift.manager.store.id}/shifts/#{@shift.id}/edit", {:class=>"btn btn-default  blue darken-3"} %>
-    <br>
-    <br>
 
-
-    <%= form_for(@shift, :method => :delete) do |f| %>
-        <%= f.submit :value => "Delete", :class=>"btn btn-default blue darken-3"%>
-    <% end %>
 </div>
 </div>
 </div>
