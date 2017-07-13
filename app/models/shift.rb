@@ -66,9 +66,16 @@ class Shift < ApplicationRecord
 
   def formatted_start_time
     if self.start_time < 1200
-      return "#{start_time/100}:00am"
+      return "#{self.start_time/100}:00am"
     else
-      return "#{(start_time-1200)/100}:00pm"
+      return "#{(self.start_time-1200)/100}:00pm"
+    end
+  end
+  def formatted_end_time
+    if self.end_time< 1200
+      return "#{self.end_time/100}:00am"
+    else
+      return "#{(self.end_time-1200)/100}:00pm"
     end
   end
 end

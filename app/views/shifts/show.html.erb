@@ -1,22 +1,42 @@
 <h3><%= @shift.day.to_date.strftime("%A, %B %e, %Y") %></h3><br>
-  <p>Start time: <%= @shift.start_time %><br>
-    End time: <%= @shift.end_time %></p><br>
-  <p>Manager name: <%= @shift.manager.name %><br>
-    Employee names: <% @shift.employees.each do |emp| %></p>
-    <p><%= emp.name %></p>
-    <% end %>
 
-    <h3>Shift Tasks</h3>
+<div class="row col s12">
+<div class="card">
+<div class="card-content blue-grey lighten-5 col s12">
+
+
+  <h5>Start time: <%= @shift.formatted_start_time %></h5>
+  <h5>End time: <%= @shift.formatted_end_time %></h5><br>
+  <div class="col s6">
+    <h5>Manager: </h5>
+    <li><%= link_to @shift.manager.name, employee_path(@shift.manager) %></li><br>
+  </div>
+  <div class="col s6">
+    <h5>Employees:</h5>
+    <% @shift.employees.each do |emp| %>
+      <% if !emp.is_manager %>
+        <li><%= link_to emp.name, employee_path(emp)%></li>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="col s12">
+    <h5>Shift Tasks</h5>
 
     <ol><% @shift.tasks.each do |task| %>
       <li><%= task.description %></li>
       <% end %>
     </ol>
+    </div>
 
-    <%= link_to "Edit", "/stores/#{@shift.manager.store.id}/shifts/#{@shift.id}/edit", {:class=>"btn btn-default"} %>
+    <%= link_to "Edit", "/stores/#{@shift.manager.store.id}/shifts/#{@shift.id}/edit", {:class=>"btn btn-default  blue darken-3"} %>
+    <br>
+    <br>
+
 
     <%= form_for(@shift, :method => :delete) do |f| %>
-        <%= f.submit :value => "Delete" %>
+        <%= f.submit :value => "Delete", :class=>"btn btn-default blue darken-3"%>
     <% end %>
-
-    <%= link_to "Back", :back, {:class=>"btn btn-default"} %>
+</div>
+</div>
+</div>
+    <%= link_to "Back", :back, {:class=>"btn btn-default blue darken-3"} %>

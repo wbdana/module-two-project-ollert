@@ -1,7 +1,14 @@
-<h1>Employee:</h1>
-<h2><%= @employee.name %></h2>
-<h2>Shifts:</h2>
-<% @employee.shifts.each do |shift| %>
-  <%=link_to "#{shift.day}, #{shift.start_time} - #{shift.end_time}", shift_path(shift) %>
-  <br>
-<% end %>
+<h4><%= @employee.name %> Employee Profile</h4>
+
+<div class="row">
+  <div class="card">
+    <div class="card-content blue-grey lighten-5 col s12">
+      <h5>Shifts:</h5>
+
+      <% @employee.shifts.each do |shift| %>
+        <li><%=link_to "#{shift.day.strftime('%A, %B %e, %Y')} | #{shift.formatted_start_time}", shift_path(shift) %></li>
+        <br>
+      <% end %>
+    </div>
+  </div>
+</div>
