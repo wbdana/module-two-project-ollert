@@ -69,7 +69,7 @@ class ShiftsController < ApplicationController
     if @shift.errors.full_messages == []
       redirect_to shift_path(@shift)
     else
-      redirect_to new_store_shift_path(@shift.manager.store) + "?errors=#{@shift.errors.full_messages.first}"
+      redirect_to edit_store_shift_path(@shift.manager.store) + "?errors=#{@shift.errors.full_messages.first}"
     end
   end
 
