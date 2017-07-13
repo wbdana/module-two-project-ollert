@@ -25,6 +25,19 @@
       <div class="container">
         <% if current_user %>
           Hi, <%= current_user.name%>!
+          <ul id="nav-mobile" class="right">
+            <% if logged_in_manager  %>
+              <li><%= link_to "Home", '/' %></li>
+              <li><%= link_to "New Shift", new_store_shift_path(current_user.store.id) %></li>
+              <li><%= link_to "New Employee", new_employee_path %></li>
+              <li><%= link_to 'Shifts', "/shifts?store_id=#{current_user.store.id}" %></li>
+
+              <% else %>
+
+              <% end %>
+          <li><%= link_to "Logout", :logout %></li>
+          </ul>
+
         <% end %>
       </div>
     </div>
@@ -55,9 +68,6 @@
 
   </body>
   <footer class="footer-copyright container m6 s4">
-    <br>
-    <% if logged_in %>
-      <%= link_to "LOGOUT", :logout, {:class=>"btn btn-default blue darken-3"} %>
-    <% end %>
+    
   </footer>
 </html>
