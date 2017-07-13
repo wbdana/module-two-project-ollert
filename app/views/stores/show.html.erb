@@ -1,16 +1,28 @@
-<h1><%= @store.name %></h1>
-<h2>City: <%= City.find(@store.id).name %></h2>
-<h3>Managers: </h3>
-<% Employee.where(is_manager: true, store_id: @store.id).each do |manager| %>
-<p><%=  link_to "#{manager.name}", employee_path(manager)%></p>
-<% end %>
+<h2 class="center-align"><%= @store.name %></h2>
+<div class="row card grey lighten-5 col s12">
+  <div class="card-content">
+    <h5>City: <%= City.find(@store.id).name %></h5>
+    <div class="col s6">
+      <h5>Managers: </h5>
+      <% Employee.where(is_manager: true, store_id: @store.id).each do |manager| %>
+      <li><%=  link_to "#{manager.name}", employee_path(manager)%></li>
+      <% end %>
+    </div>
+    <div class="col s6">
+      <h5>Employees: </h5>
+      <% Employee.where(is_manager: false, store_id: @store.id).each do |employee| %>
+      <li><%=  link_to "#{employee.name}", employee_path(employee)%></li>
+      <% end %>
+      <br>
+      <br>
+    </div>
+    <div class="card-action col s12 center-align ">
 
-<h3>Employees: </h3>
-<% Employee.where(is_manager: false, store_id: @store.id).each do |employee| %>
-<p><%=  link_to "#{employee.name}", employee_path(employee)%></p>
-<% end %>
-<%= link_to "View all shifts for this location.", "/shifts?store_id=#{@store.id}" %>
-<%= link_to "Add a new shift for this location", new_store_shift_path(@store) %>
+      <%= link_to "View all shifts for this location", "/shifts?store_id=#{@store.id}" %>
+      <%= link_to "Add a new shift for this location", new_store_shift_path(@store) %>
+    </div>
+  </div>
+</div>
 <br>
-<br>
-<%= link_to "Back", :back, {:class=>"btn btn-default"} %>
+
+<%= link_to "Back", :back, {:class=>"btn btn-default red accent-2"} %>
