@@ -6,6 +6,7 @@ class ShiftsController < ApplicationController
 
   def index
     @shifts = Shift.all
+    @shifts = @shifts.sort_by {|shift| shift.day}
     @store_id = params[:store_id] if params.keys.include?("store_id")
     @store = Store.find(@store_id) if @store_id
   end

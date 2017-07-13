@@ -1,8 +1,15 @@
-<% if @store %>
-  <h1>Here are the shifts for the <%= @store.name %> location:</h1>
-  <% @shifts.each do |shift| %>
-    <% if shift.manager.store == @store %>
-      <p><%=link_to "#{shift.day}, #{shift.start_time} - #{shift.end_time}", shift_path(shift) %></p>
-    <% end %>
-  <% end %>
-<% end %>
+<h4>Here are the shifts for the <%= @store.name %> location:</h4>
+<div class="row">
+  <div class="card blue-grey lighten-4 col s12">
+    <div class="card-content">
+      <% if @store %>
+
+        <% @shifts.each do |shift| %>
+          <% if shift.manager.store == @store %>
+            <li><%=link_to "#{shift.day.strftime('%A, %B %e, %Y')} | #{shift.formatted_start_time}", shift_path(shift) %></li> <br>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

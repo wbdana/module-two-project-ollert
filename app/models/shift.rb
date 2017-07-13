@@ -63,4 +63,12 @@ class Shift < ApplicationRecord
     # #WeWereShortAMethod     ¯\\_(ツ)_/¯
     self.day.to_date.strftime('%s')
   end
+
+  def formatted_start_time
+    if self.start_time < 1200
+      return "#{start_time/100}:00am"
+    else
+      return "#{(start_time-1200)/100}:00pm"
+    end
+  end
 end
