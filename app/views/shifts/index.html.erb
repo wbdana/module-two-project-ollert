@@ -10,6 +10,13 @@
           <% end %>
         <% end %>
       <% end %>
+
+      <%= month_calendar do |date| %>
+          <p><%= date.strftime('%e') %></p>
+        <% Shift.all.each do |shift| %>
+        <p> <a href=<%= "#{shift_path(shift.id)}" %>><%= shift.formatted_start_time if shift.day.to_date == date %></a></p>
+        <% end %>
+      <% end %>
     </div>
   </div>
 </div>
