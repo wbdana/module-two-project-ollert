@@ -21,3 +21,7 @@
 /yarn-error.log
 
 .byebug_history
+
+/client_secret.json
+/quickstart.rb
+/sample_event.rb
