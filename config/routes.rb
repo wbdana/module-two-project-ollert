@@ -10,11 +10,12 @@ Rails.application.routes.draw do
   resources :employees
   resources :managers
   resources :cities
-  resources :stores, only: [:index, :show] do
-  resources :shifts, only: [:index, :edit, :new, :create, :show]
-  get "*path" => redirect("/")
-  end
+  resources :shifts, only: [:show]
 
+  resources :stores, only: [:index, :show] do
+  resources :shifts, only: [:index, :edit, :new, :create]
+  end
+  get "*path" => redirect("/")
 
 
   # resources :stores, only: [:index, :show]

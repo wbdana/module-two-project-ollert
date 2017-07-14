@@ -2,13 +2,6 @@
 <div class="row">
   <div class="card blue-grey lighten-5 col s12">
     <div class="card-content">
-      <% if @store %>
-        <% @shifts.each do |shift| %>
-          <% if shift.manager.store == @store %>
-            <li><%=link_to "#{shift.day.strftime('%A, %B %e, %Y')} | #{shift.formatted_start_time}", store_shift_path(@store,shift) %></li> <br>
-          <% end %>
-        <% end %>
-      <% end %>
 
       <%= month_calendar do |date| %>
           <p><%= date.strftime('%e') %></p>
