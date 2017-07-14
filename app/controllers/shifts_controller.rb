@@ -22,7 +22,6 @@ class ShiftsController < ApplicationController
   end
 
   def create
-    byebug
     @shift = Shift.new(shift_params)
     params[:shift][:employee_ids].shift
     params[:shift][:employee_ids].each do |id|
