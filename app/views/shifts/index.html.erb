@@ -3,18 +3,17 @@
   <div class="card blue-grey lighten-5 col s12">
     <div class="card-content">
       <% if @store %>
-
         <% @shifts.each do |shift| %>
           <% if shift.manager.store == @store %>
-            <li><%=link_to "#{shift.day.strftime('%A, %B %e, %Y')} | #{shift.formatted_start_time}", shift_path(shift) %></li> <br>
+            <li><%=link_to "#{shift.day.strftime('%A, %B %e, %Y')} | #{shift.formatted_start_time}", store_shift_path(@store,shift) %></li> <br>
           <% end %>
         <% end %>
       <% end %>
 
       <%= month_calendar do |date| %>
           <p><%= date.strftime('%e') %></p>
-        <% Shift.all.each do |shift| %>
-        <p> <a href=<%= "#{shift_path(shift.id)}" %>><%= shift.formatted_start_time if shift.day.to_date == date %></a></p>
+        <% @store.shifts.each do |shift| %>
+        <p> <a href=<%= "#{shift_path(shift)}" %>><%= shift.formatted_start_time if shift.day.to_date == date %></a></p>
         <% end %>
       <% end %>
     </div>

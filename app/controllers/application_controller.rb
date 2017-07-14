@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
   helper_method :logged_in, :logged_in_manager, :logged_in_employee, :current_user, :authorize
 
 
@@ -24,4 +24,11 @@ class ApplicationController < ActionController::Base
     redirect_to '/login' unless current_user
   end
 
+
+
+   private
+
+   def record_not_found
+     redirect_to '/'
+   end
 end

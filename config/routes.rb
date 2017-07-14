@@ -7,15 +7,17 @@ Rails.application.routes.draw do
   get '/signup', to: 'employees#new'
   post '/employees', to: 'employees#create'
   post '/shifts/destroy', to: 'shifts#destroy', as: 'destroy'
-  resources :shifts
   resources :employees
   resources :managers
-  resources :stores
   resources :cities
-
-  resources :stores do
-  resources :shifts
+  resources :stores, only: [:index, :show] do
+  resources :shifts, only: [:index, :edit, :new, :create, :show]
+  get "*path" => redirect("/")
   end
+
+
+
+  # resources :stores, only: [:index, :show]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
 

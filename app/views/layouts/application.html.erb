@@ -30,7 +30,7 @@
               <li><%= link_to "Home", '/' %></li>
               <li><%= link_to "New Shift", new_store_shift_path(current_user.store.id) %></li>
               <li><%= link_to "New Employee", new_employee_path %></li>
-              <li><%= link_to 'Shifts', "/shifts?store_id=#{current_user.store.id}" %></li>
+              <li><%= link_to 'Shifts', "/stores/#{current_user.store.id}/shifts" %></li>
 
               <% else %>
 
@@ -68,6 +68,6 @@
 
   </body>
   <footer class="footer-copyright container m6 s4">
-    
+
   </footer>
 </html>

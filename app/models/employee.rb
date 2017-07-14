@@ -25,7 +25,7 @@ class Employee < ApplicationRecord
 
   def check_password
     if !self.persisted?
-      if self.password.length < 4
+      if self.password.nil? || self.password.length < 4 
         errors.add(:password, "Password must be at least 4 characters!")
       end
     end

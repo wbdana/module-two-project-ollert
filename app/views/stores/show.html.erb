@@ -46,7 +46,7 @@
     </div>
     <div class="card-action col s12 center-align ">
 
-      <%= link_to "View all shifts for this location", "/shifts?store_id=#{@store.id}" %>
+      <%= link_to "View all shifts for this location", store_shifts_path(@store) %>
       <%= link_to "Add a new shift for this location", new_store_shift_path(@store) %>
     </div>
   </div>

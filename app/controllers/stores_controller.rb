@@ -9,4 +9,9 @@ class StoresController < ApplicationController
   def show
     @store = Store.find(params[:id])
   end
+
+  def redirect
+    redirect_to '/stores/'
+  end
+
 end

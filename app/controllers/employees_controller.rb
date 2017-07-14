@@ -16,6 +16,8 @@ class EmployeesController < ApplicationController
       else
         redirect_to @employee
       end
+    elsif @employee.errors.full_messages.length>0
+      redirect_to new_employee_path
     else
       redirect_to '/login'
     end

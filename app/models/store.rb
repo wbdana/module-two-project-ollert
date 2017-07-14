@@ -22,7 +22,7 @@ class Store < ApplicationRecord
   def past_shifts
     shifts.select{|shift| shift.day < Time.now}
   end
-
+  
   def future_tasks
     future_shifts.map {|shift| shift.tasks}.flatten.reject{|task| task.description.length < 2 }
   end
