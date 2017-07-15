@@ -12,6 +12,7 @@ class ShiftsController < ApplicationController
   end
 
   def new
+    redirect_to login_path if logged_in_employee
     @shift = Shift.new
     @store = Store.find(params[:store_id])
     5.times do |i|
@@ -22,6 +23,7 @@ class ShiftsController < ApplicationController
   end
 
   def create
+    redirect_to login_path if logged_in_employee
     @shift = Shift.new(shift_params)
     params[:shift][:employee_ids].shift
     params[:shift][:employee_ids].each do |id|
@@ -46,6 +48,7 @@ class ShiftsController < ApplicationController
   end
 
   def edit
+    redirect_to login_path if logged_in_employee
     @shift = Shift.find(params[:id])
     @store = Store.find(@shift.manager.store.id)
     @managers = Employee.where(is_manager: true, store:  @store).map{|manager| ["#{manager.name}", "#{manager.id}"]}
@@ -53,6 +56,7 @@ class ShiftsController < ApplicationController
   end
 
   def update
+    redirect_to login_path if logged_in_employee
     @shift.update(shift_params)
     params[:shift][:employee_ids].shift
     @shift.tasks = []
@@ -73,15 +77,14 @@ class ShiftsController < ApplicationController
     end
   end
 
-  #TODO fix this method
-
   def destroy
-    @shift = Shift.find(params[:id])
-    @shift.destroy
-    redirect_to '/'
-  end
-
-  def show_params
+    if logged_in_employee
+      redirect_to login_path
+    else
+      @shift = Shift.find(params[:id])
+      @shift.destroy
+      redirect_to login_path
+    end
   end
 
   private

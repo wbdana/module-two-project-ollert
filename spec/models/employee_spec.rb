@@ -1,6 +1,14 @@
 require 'rails_helper'
 
+
+
 describe 'homepage' do
+
+
+# having trouble figuring this out; think we need to run rake:db drop and rake db:setup before each rspec test
+  # before(:each) do
+  #
+  #   end
 
   it 'makes sure no infomation is displayed unless logging in' do
     visit "/stores"
@@ -38,7 +46,7 @@ describe 'homepage' do
     expect(page).to have_content("Employee Profile")
   end
 
-  it 'can display all store shift' do
+  it 'can display all store shifts' do
     visit "/login"
     fill_in 'email', :with => "will@test.com"
     fill_in 'password', :with => "test"
@@ -48,6 +56,9 @@ describe 'homepage' do
     expect(page).to have_content("Here are the shifts for the Flagship ")
 
   end
+end
+
+describe 'manager actions' do
 
   it 'make new shifts as manager' do
     visit "/login"
@@ -76,8 +87,83 @@ describe 'homepage' do
     expect(page).to have_content("Here are the shifts for the Flagship ")
   end
 
+  it 'manager can add an employee' do
+    visit "/login"
+    fill_in 'email', :with => "johann@test.com"
+    fill_in 'password', :with => "test"
+    click_button 'Submit'
+    visit "/employees/new"
+    fill_in 'employee[name]', :with => "Jimbobgeorge"
+    fill_in 'employee[email]', :with => "jimbobgeorge@test.com"
+    select "Flagship New York", :from => "employee[store_id]"
+    select "Employee", :from => "employee[is_manager]"
+    fill_in 'employee[password]', :with => "test"
+    fill_in 'employee[password_confirmation]', :with => "test"
+    click_button 'Add new employee'
+
+    expect(page).to have_content("Upcoming Tasks")
+  end
+
+  it 'manager can view an employee' do
+    visit "/login"
+    fill_in 'email', :with => "johann@test.com"
+    fill_in 'password', :with => "test"
+    click_button 'Submit'
+    visit "/employees/6"
+
+    expect(page).to have_content("Paul Employee Profile")
+  end
 end
-#
-# describe 'login_success as manager' do
-#
-# end
+
+describe 'employee actions' do
+
+  it 'employee cannot create a new employee' do
+    visit "/login"
+    fill_in 'email', :with => "will@test.com"
+    fill_in 'password', :with => "test"
+    click_button 'Submit'
+    visit "employees/new"
+
+    expect(page).to have_content("Will Employee Profile")
+  end
+
+  it 'employee cannot create a new shift' do
+    visit "/login"
+    fill_in 'email', :with => "will@test.com"
+    fill_in 'password', :with => "test"
+    click_button 'Submit'
+    visit "stores/1/shifts/new"
+
+    expect(page).to have_content("Will Employee Profile")
+  end
+
+# broken
+  # it 'employee cannot delete a shift' do
+  #   visit "/login"
+  #   fill_in 'email', :with => "johann@test.com"
+  #   fill_in 'password', :with => "test"
+  #   click_button 'Submit'
+  #   visit "/stores/1/shifts/new"
+  #   fill_in "shift[day]", with: "2025/01/01"
+  #   select "1:00", :from => "shift[start_time]"
+  #   select "5:00", :from => "shift[end_time]"
+  #   select "Johann", :from => "shift[manager_id]"
+  #   check "shift_employee_ids_9"
+  #   fill_in "shift[tasks_attributes][0][description]", with: "Stock Shelves"
+  #   click_button 'Create Shift'
+  #   @shift = Shift.last
+  #   visit "/logout"
+  #   visit "/login"
+  #   fill_in 'email', :with => "will@test.com"
+  #   fill_in 'password', :with => "test"
+  #   click_button 'Submit'
+  #   visit "/shifts/#{@shift.id}/destroy"
+  #   visit "/shifts/#{@shift.id}"
+  #
+  #   # page.should have_selector('input#delete')
+  #   # page.find('delete').click
+  #
+  #   expect(page).to have_content("Will Employee Profile")
+  # end
+
+end

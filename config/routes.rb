@@ -1,16 +1,15 @@
 Rails.application.routes.draw do
-  # post '/shifts', to: 'shifts#show_params'
   get '/', to: 'sessions#new', as: 'login'
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   get '/logout', to: 'sessions#destroy', as: 'logout'
   get '/signup', to: 'employees#new'
   post '/employees', to: 'employees#create'
-  post '/shifts/destroy', to: 'shifts#destroy', as: 'destroy'
+  post '/shifts/:id/destroy', to: 'shifts#destroy', as: 'destroy'
   resources :employees
   resources :managers
   resources :cities
-  resources :shifts, only: [:show]
+  resources :shifts, only: [:show, :destroy]
 
   resources :stores, only: [:index, :show] do
   resources :shifts, only: [:index, :edit, :new, :create]

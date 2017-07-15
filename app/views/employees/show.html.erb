@@ -16,7 +16,7 @@
             <p>No Shifts! Better get to it.</p>
           <% else %>
             <% @employee.shifts.each do |shift| %>
-              <li><%=link_to "#{shift.day.strftime('%A, %B %e, %Y')} | #{shift.formatted_start_time}", shift_path(@employee.store, shift) %></li>
+              <li><%=link_to "#{shift.day.strftime('%A, %B %e, %Y')} | #{shift.formatted_start_time}", shift_path(shift.id) %></li>
               <br>
             <% end %>
           <% end %>

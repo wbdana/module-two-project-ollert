@@ -3,11 +3,13 @@ class EmployeesController < ApplicationController
   before_action :authorize, except: [:create]
 
   def new
+    redirect_to login_path if logged_in_employee
     @employee = Employee.new
     @stores = Store.all.map{|store| ["#{store.name}", "#{store.id}"]}
   end
 
   def create
+    redirect_to login_path if logged_in_employee
     @employee = Employee.create(employee_params)
     if @employee.save
       session[:employee_id] = @employee.id
