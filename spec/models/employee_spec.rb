@@ -1,9 +1,151 @@
 require 'rails_helper'
 
+describe 'links' do
 
+  it 'can visit the login page' do
+    visit '/login'
+
+    expect(page.status_code).to eq(200)
+  end
+
+  it 'can login and visit the manager homepage' do
+    visit '/login'
+    fill_in 'email', :with => "johann@test.com"
+    fill_in 'password', :with => "test"
+    click_button 'Submit'
+
+    expect(page.status_code).to eq(200)
+  end
+
+  it 'can login and visit the employee homepage' do
+    visit '/login'
+    fill_in 'email', :with => "will@test.com"
+    fill_in 'password', :with => "test"
+    click_button 'Submit'
+
+    expect(page.status_code).to eq(200)
+  end
+
+  it 'can navigate to stores' do
+    visit '/login'
+    fill_in 'email', :with => "johann@test.com"
+    fill_in 'password', :with => "test"
+    click_button 'Submit'
+    visit '/stores'
+
+    expect(page.status_code).to eq(200)
+    expect(page).to have_content("Stores:")
+  end
+end
+
+describe 'employee views' do
+
+  it 'displays shifts for employees on their homepage' do
+    visit '/login'
+    fill_in 'email', :with => "johann@test.com"
+    fill_in 'password', :with => "test"
+    click_button 'Submit'
+    visit "/stores/1/shifts/new"
+    fill_in "shift[day]", with: "2017/08/08"
+    select "1:00", :from => "shift[start_time]"
+    select "5:00", :from => "shift[end_time]"
+    select "Johann", :from => "shift[manager_id]"
+    check "shift_employee_ids_8"
+    fill_in "shift[tasks_attributes][0][description]", with: "Stock Shelves"
+    click_button 'Create Shift'
+    visit '/logout'
+    visit '/login'
+    fill_in 'email', :with => "will@test.com"
+    fill_in 'password', :with => "test"
+    click_button 'Submit'
+
+    expect(page).to have_content("Shifts:")
+    expect(page).to have_content("August")
+
+  end
+
+  it 'displays employee tasks on their homepage' do
+    visit '/login'
+    fill_in 'email', :with => "johann@test.com"
+    fill_in 'password', :with => "test"
+    click_button 'Submit'
+    visit "/stores/1/shifts/new"
+    fill_in "shift[day]", with: "2017/08/08"
+    select "1:00", :from => "shift[start_time]"
+    select "5:00", :from => "shift[end_time]"
+    select "Johann", :from => "shift[manager_id]"
+    check "shift_employee_ids_8"
+    fill_in "shift[tasks_attributes][0][description]", with: "Stock Shelves"
+    click_button 'Create Shift'
+    visit '/logout'
+    visit '/login'
+    fill_in 'email', :with => "will@test.com"
+    fill_in 'password', :with => "test"
+    click_button 'Submit'
+
+    expect(page).to have_content("Stock Shelves")
+
+  end
+
+  it 'displays employee future scheduled hours' do
+    visit '/login'
+    fill_in 'email', :with => "johann@test.com"
+    fill_in 'password', :with => "test"
+    click_button 'Submit'
+    visit "/stores/1/shifts/new"
+    fill_in "shift[day]", with: "2017/08/08"
+    select "1:00", :from => "shift[start_time]"
+    select "5:00", :from => "shift[end_time]"
+    select "Johann", :from => "shift[manager_id]"
+    check "shift_employee_ids_8"
+    fill_in "shift[tasks_attributes][0][description]", with: "Stock Shelves"
+    click_button 'Create Shift'
+    visit '/logout'
+    visit '/login'
+    fill_in 'email', :with => "will@test.com"
+    fill_in 'password', :with => "test"
+    click_button 'Submit'
+
+    expect(page).to have_content("Future Scheduled Hours: 4")
+  end
+
+end
+
+describe 'manager views' do
+
+  it 'can navigate to manager profile view' do
+    visit '/login'
+    fill_in 'email', :with => "johann@test.com"
+    fill_in 'password', :with => "test"
+    click_button 'Submit'
+    visit '/employees/1'
+
+    expect(page).to have_content("Shifts:")
+  end
+
+  it 'shows manager tasks on manager profile view' do
+    visit '/login'
+    fill_in 'email', :with => "johann@test.com"
+    fill_in 'password', :with => "test"
+    click_button 'Submit'
+    visit "/stores/1/shifts/new"
+    fill_in "shift[day]", with: "2017/08/08"
+    select "1:00", :from => "shift[start_time]"
+    select "5:00", :from => "shift[end_time]"
+    select "Johann", :from => "shift[manager_id]"
+    check "shift_employee_ids_9"
+    fill_in "shift[tasks_attributes][0][description]", with: "Stock Shelves"
+    click_button 'Create Shift'
+    visit '/employees/1'
+
+    expect(page).to have_content("Stock Shelves")
+  end
+
+
+
+end
 
 describe 'homepage' do
-
 
 # having trouble figuring this out; think we need to run rake:db drop and rake db:setup before each rspec test
   # before(:each) do
