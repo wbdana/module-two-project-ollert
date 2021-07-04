@@ -1,0 +1,22 @@
+<h2 class="center-align"><strong>ollerT</strong></h2>
+<h3 class="center-align">Please login:</h3>
+<div class="row">
+  <% if flash[:notice] %>
+    <div class='notice red center-align'><%= flash[:notice] %> </div>
+  <%end%>
+  <div class="col l12 m12 s12 card">
+    <div class="col l2 m2">
+    </div>
+    <%= form_tag '/login' do %>
+        <div class="input-field col l8 m8 s12 card-content">
+          Email: <%= text_field_tag :email %>
+          Password: <%= password_field_tag :password %>
+          <div class="btn waves-effect waves-light col s12 center-align blue darken-3">
+            <%= submit_tag "Submit" %>
+          </div>
+        </div>
+    <% end %>
+    <div class="col l2 m2">
+    </div>
+  </div>
+</div>

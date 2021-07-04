@@ -2,43 +2,89 @@ class ShiftsController < ApplicationController
 
   before_action :find_shift, only: [:show, :edit, :destroy, :update]
 
+  before_action :authorize
+
   def index
     @shifts = Shift.all
+    @shifts = @shifts.sort_by {|shift| shift.day}
+    @store_id = params[:store_id] if params.keys.include?("store_id")
+    @store = Store.find(@store_id) if @store_id
   end
 
   def new
+    redirect_to login_path if logged_in_employee
     @shift = Shift.new
-    @managers = Manager.all.map{|manager| ["#{manager.name}", "#{manager.id}"]}
-    @employees = Employee.all
+    @store = Store.find(params[:store_id])
+    5.times do |i|
+      @shift.tasks << Task.new
+    end
+    @managers = Employee.where(is_manager: true, store:  @store).map{|manager| ["#{manager.name}", "#{manager.id}"]}
+    @employees = Employee.where(is_manager: false, store: @store)
   end
 
   def create
-    @shift = Shift.create(shift_params)
-    params[:employee_ids].each do |id|
+    redirect_to login_path if logged_in_employee
+    @shift = Shift.new(shift_params)
+    params[:shift][:employee_ids].shift
+    params[:shift][:employee_ids].each do |id|
       @shift.employees << Employee.find(id.to_i)
     end
-    redirect_to @shift
+    @shift.employees << Employee.find(@shift.manager_id)
+    params[:shift][:tasks_attributes].values.each do |desc_hash|
+      desc_hash[:description] == "" ? @shift.tasks << Task.create(description: " ") : @shift.tasks << Task.create(description: desc_hash[:description])
+    end
+    @shift.save
+
+    if @shift.errors.full_messages == []
+      redirect_to shift_path(@shift)
+    else
+      redirect_to new_store_shift_path(@shift.manager.store) + "?errors=#{@shift.errors.full_messages.first}"
+    end
+
   end
 
   def show
     @shift = Shift.find(params[:id])
-
   end
 
   def edit
+    redirect_to login_path if logged_in_employee
     @shift = Shift.find(params[:id])
+    @store = Store.find(@shift.manager.store.id)
+    @managers = Employee.where(is_manager: true, store:  @store).map{|manager| ["#{manager.name}", "#{manager.id}"]}
+    @employees = Employee.where(is_manager: false, store: @store)
   end
 
   def update
+    redirect_to login_path if logged_in_employee
     @shift.update(shift_params)
+    params[:shift][:employee_ids].shift
+    @shift.tasks = []
+    params[:shift][:tasks_attributes].values.each do |desc_hash|
+      @shift.tasks << Task.create(description: desc_hash[:description])
+    end
+    @shift.employees = []
+    params[:shift][:employee_ids].each do |id|
+      @shift.employees << Employee.find(id.to_i)
+    end
+    @shift.employees << Employee.find(@shift.manager_id)
     @shift.save
-    redirect_to @shift
+
+    if @shift.errors.full_messages == []
+      redirect_to shift_path(@shift)
+    else
+      redirect_to edit_store_shift_path(@shift.manager.store) + "?errors=#{@shift.errors.full_messages.first}"
+    end
   end
 
   def destroy
-  end
-
-  def show_params
+    if logged_in_employee
+      redirect_to login_path
+    else
+      @shift = Shift.find(params[:id])
+      @shift.destroy
+      redirect_to login_path
+    end
   end
 
   private

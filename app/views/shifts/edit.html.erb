@@ -1,16 +1,39 @@
-
-<%= form_for @shift, method: :patch do |f| %>
-  <%= f.label :day %>
-  <%= f.select :day, [['Monday', 'monday'], ['Tuesday', 'tuesday'], ['Wednesday', 'wednesday'], ['Thursday', 'thursday'], ['Friday', 'friday']] %><br><br>
-  <%= f.label :start_time %>
-  <%= f.select :start_time, [['9:00', 900], ['1:00', 1300], ['5:00', 1700]] %><br><br>
-  <%= f.label :end_time %>
-  <%= f.select :end_time, [['1:00', 1300], ['5:00', 1700], ['9:00', 2100]] %><br><br>
-  <%= f.label "Manager" %>
-  <%= f.select :manager_id, @managers %><br><br>
-  <%= f.label "Employees" %>
-  <% @employees.each do |employee| %>
-    <%= check_box_tag 'employee_ids[]', employee.id, checked = false, {:id => employee.id} %> <%= employee.name %>
-  <% end %>
-  <%= f.submit %>
+<h3>Edit a shift for the <%= @store.name %> location:</h3>
+<% if params[:errors]%>
+  <h5 class="red center white-text-color red"><%= params[:errors] %></h5>
 <% end %>
+<div class="row">
+  <div class="card ">
+    <div class="card-content">
+      <%= form_for @shift do |f| %>
+          <%= f.label :day %>
+          <%= f.date_field :day %><br>
+          <%= f.label :start_time %>
+          <%= f.select :start_time, [['9:00', 900], ['1:00', 1300], ['5:00', 1700]] %><br><br>
+          <%= f.label :end_time %>
+          <%= f.select :end_time, [['1:00', 1300], ['5:00', 1700], ['9:00', 2100]] %><br><br>
+          <%= f.label "Manager" %>
+          <%= f.select :manager_id, @managers %><br><br>
+          <%= f.label "Employees" %>
+          <br>
+          <br>
+          <div class="row">
+            <div class="col l12 m12 s12">
+              <%= f.collection_check_boxes :employee_ids, @employees, :id, :name do |t| %>
+                <div class = "col s2" ><%= t.check_box %> <%= t.label %></div>
+              <% end %>
+            </div>
+
+          </div>
+          New Task Information:<br>
+          <ol><%= f.fields_for :tasks do |ff|%>
+            <li><%= ff.text_field :description%></li><br>
+          <% end %></ol>
+
+          <div class="btn waves-effect waves-light blue darken-3">
+            <%= f.submit %>
+          </div>
+      <% end %>
+    </div>
+  </div>
+</div>

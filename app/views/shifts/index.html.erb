@@ -1,0 +1,14 @@
+<h4>Here are the shifts for the <%= @store.name %> location:</h4>
+<div class="row">
+  <div class="card blue-grey lighten-5 col s12">
+    <div class="card-content">
+
+      <%= month_calendar do |date| %>
+          <p><%= date.strftime('%e') %></p>
+        <% @store.shifts.each do |shift| %>
+        <p> <a href=<%= "#{shift_path(shift)}" %>><%= shift.formatted_start_time if shift.day.to_date == date %></a></p>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

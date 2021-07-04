@@ -1,0 +1,18 @@
+  <h3>Add a new employee here</h3>
+  <div class="row">
+    <div class="card">
+      <div class="card-content">
+        <%= form_for @employee, url: '/employees' do |f| %>
+            <p>Name: <%= f.text_field :name %></p>
+            <p>Email: <%= f.text_field :email %></p>
+            <p>Store <%= f.select :store_id, @stores %></p>
+            <p>Manager/Employee? <%= f.select :is_manager, [['Manager', true], ['Employee', false]] %></p>
+            <p>Password: <%= f.password_field :password %></p>
+            <p>Password Confirmation: <%= f.password_field :password_confirmation %></p>
+            <div class="btn waves-effect waves-light blue darken-3">
+              <%= f.submit "Add new employee"%>
+            </div>
+          <% end %>
+      </div>
+  </div>
+</div>
